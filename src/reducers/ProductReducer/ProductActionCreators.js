@@ -5,4 +5,8 @@ export const ProductActionCreators = {
     type: types.SET_PRODUCTS,
     payload: { products },
   }),
+
+  removeProducts: () => ({
+    type: types.REMOVE_PRODUCTS,
+  })
 };

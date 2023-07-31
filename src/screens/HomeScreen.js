@@ -20,10 +20,7 @@ import {
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase.config";
 
-import {
-  HeartIcon,
-  ShoppingCartIcon,
-} from "react-native-heroicons/outline";
+import { HeartIcon, ShoppingCartIcon } from "react-native-heroicons/outline";
 
 import ProductsContainer from "../components/ProductsContainer";
 import LoginForm from "../components/LoginForm";
@@ -88,14 +85,16 @@ const HomeScreen = () => {
   return (
     <SafeAreaView className="bg-gray-200" style={{ height: "100%" }}>
       {userInfo ? (
-        <View className="px-6 space-y-4">
+        <View className="py-6 space-y-4">
           {/* Header */}
-          <View className="flex-row items-center justify-between">
+          <View className="flex-row items-center justify-between px-6">
             <View className="flex-row items-center space-x-2">
-              <Image
-                source={{ uri: userInfo.photoURL }}
-                className="h-10 w-10 rounded-lg"
-              />
+              <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                <Image
+                  source={{ uri: userInfo.photoURL }}
+                  className="h-10 w-10 rounded-lg"
+                />
+              </TouchableOpacity>
               <View>
                 <Text className="text-xs">Hello!</Text>
                 <Text className="font-bold text-lg">{userInfo.name}</Text>
@@ -104,7 +103,6 @@ const HomeScreen = () => {
 
             {/* Tabs */}
             <View className="flex-row items-center space-x-3">
-
               {/* Wishlist Tab */}
               <TouchableOpacity
                 className="relative"
@@ -134,8 +132,6 @@ const HomeScreen = () => {
                   </View>
                 )}
               </TouchableOpacity>
-
-
             </View>
           </View>
 
@@ -148,7 +144,7 @@ const HomeScreen = () => {
           </ScrollView>
         </View>
       ) : (
-        <LoginForm />
+        <LoginForm promptAsync={promptAsync} />
       )}
     </SafeAreaView>
   );

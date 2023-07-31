@@ -13,6 +13,13 @@ export const ProductReducer = (state = initialState, action) => {
         products: products,
       };
     }
+
+    case types.REMOVE_PRODUCTS: {
+      return {
+        products: [],
+      };
+    }
+
     default:
       return state;
   }

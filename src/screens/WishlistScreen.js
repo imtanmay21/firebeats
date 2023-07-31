@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
@@ -11,10 +11,9 @@ const WishlistScreen = () => {
 
   const navigation = useNavigation();
 
-
   return (
-    <SafeAreaView style={{ height: "100%" }} className="bg-gray-200 p-6">
-      <View className="flex-row items-center space-x-4 mb-4">
+    <SafeAreaView style={{ height: "100%" }} className="bg-gray-200 py-3">
+      <View className="flex-row items-center space-x-4 mb-4 px-6">
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <ChevronLeftIcon color="#000000" />
         </TouchableOpacity>

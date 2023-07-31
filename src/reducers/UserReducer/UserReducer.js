@@ -11,6 +11,10 @@ export const UserReducer = (state = initialState, action) => {
       };
     }
 
+    case types.REMOVE_USER: {
+      return null
+    }
+
     case types.ADD_ITEM_WISHLIST: {
       const { productData } = action.payload;
       return {
@@ -23,7 +27,7 @@ export const UserReducer = (state = initialState, action) => {
       const { productData } = action.payload;
       return {
         ...state,
-        wishlist: state.wishlist.map((item) => item !== productData),
+        wishlist: state.wishlist.filter((item) => item.id !== productData.id),
       };
     }
 
@@ -36,10 +40,10 @@ export const UserReducer = (state = initialState, action) => {
     }
 
     case types.REMOVE_ITEM_CART: {
-      const { productData } = action.payload;
+      const { cartItems } = action.payload;
       return {
         ...state,
-        cart: state.cart.map((item) => item !== productData),
+        cart: cartItems,
       };
     }
 

@@ -1,3 +1,4 @@
 export const types = {
-    SET_PRODUCTS: "SET_PRODUCTS"
+    SET_PRODUCTS: "SET_PRODUCTS",
+    REMOVE_PRODUCTS: "REMOVE_PRODUCTS"
 }

@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import WishlistScreen from "./src/screens/WishlistScreen";
 import CartScreen from "./src/screens/CartScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
 
 export default function App() {
   // Creating navigation stack
@@ -28,6 +29,11 @@ export default function App() {
             name="Cart"
             component={CartScreen}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{ presentation: "fullScreenModal", headerShown: false }}
           />
         </Stack.Navigator>
       </Provider>

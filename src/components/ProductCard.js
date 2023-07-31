@@ -97,115 +97,128 @@ const ProductCard = ({ id, data }) => {
   };
 
   return (
-    <View className="bg-gray-100 rounded-2xl shadow-sm p-10 mb-3 space-y-4 overflow-auto relative">
-      {/* Image Container */}
-      <View className="items-center">
-        <Image
-          source={{ uri: data.imgURL }}
-          style={{ height: 280, width: 200 }}
-          resizeMode="contain"
-        />
-      </View>
-
-      {/* Fitness product with price */}
-      <View>
-        <View className="flex-row justify-between items-center">
-          <Text className="font-bold text-lg">{data.name}</Text>
-          <Text className="font-bold text-lg">${data.stockPrice}</Text>
+    <View className="px-6 mb-4">
+      <View className="bg-gray-100 rounded-2xl shadow-md p-10 mb-3 space-y-4 overflow-auto relative">
+        {/* Image Container */}
+        <View className="items-center">
+          <Image
+            source={{ uri: data.imgURL }}
+            style={{ height: 280, width: 200 }}
+            resizeMode="contain"
+          />
         </View>
 
-        {/* Details shown or not */}
-        {!detailsShown ? (
-          <TouchableOpacity
-            onPress={() => setDetailsShown(true)}
-            className="flex-row items-center"
-          >
-            <Text>See More</Text>
-            <ChevronDownIcon size={20} color="#000000" />
-          </TouchableOpacity>
-        ) : (
-          // If details are shown
-          <View className="space-y-2">
-            <Text>{data.description}</Text>
+        {/* Fitness product with price */}
+        <View>
+          <View className="flex-row justify-between items-center">
+            <Text className="font-bold text-lg" style={{width: "70%"}}>{data.name}</Text>
+            <View className="flex-row space-x-2">
+              <Text
+                className={`font-bold text-lg ${
+                  data.discount !== 0 && "line-through text-gray-400"
+                }`}
+              >
+                ${data.stockPrice}
+              </Text>
+              {data.discount !== 0 && (
+                <Text className="text-xl font-bold">${(100 - data.discount) * data.stockPrice * 0.01}</Text>
+              )}
+            </View>
+          </View>
+
+          {/* Details shown or not */}
+          {!detailsShown ? (
             <TouchableOpacity
-              onPress={() => setDetailsShown(false)}
+              onPress={() => setDetailsShown(true)}
               className="flex-row items-center"
             >
-              <Text>Hide Details</Text>
-              <ChevronUpIcon size={20} color="#000000" />
+              <Text>See More</Text>
+              <ChevronDownIcon size={20} color="#000000" />
             </TouchableOpacity>
-          </View>
-        )}
-      </View>
-
-      {/* Colors Section */}
-      <View className="space-y-2">
-        <Text className="font-bold">Colors Available</Text>
-        <View className="flex-row space-x-2 items-center">
-          {colors.map((color, index) => (
-            <View
-              key={index}
-              className={`p-0.5 rounded-full border-transparent ${
-                color.isSelected && "border-2 border-black"
-              }`}
-            >
+          ) : (
+            // If details are shown
+            <View className="space-y-2">
+              <Text>{data.description}</Text>
               <TouchableOpacity
-                onPress={() => selectColor(color.colorName)}
-                className="h-5 w-5 rounded-full"
-                style={{ backgroundColor: color.colorCode }}
-              ></TouchableOpacity>
-            </View>
-          ))}
-        </View>
-      </View>
-
-      {/* Sizes section */}
-      <View className="space-y-2">
-        <Text className="font-bold">Sizes Available</Text>
-        <View className="flex-row space-x-2 items-center">
-          {sizes.map((size, index) => (
-            <View
-              key={index}
-              className={`p-0.5 rounded-full border-transparent ${
-                size.isSelected && "border-2 border-black"
-              }`}
-            >
-              <TouchableOpacity
-                onPress={() => selectSize(size.sizeName)}
-                className="h-10 w-10 items-center justify-center rounded-full bg-gray-200"
+                onPress={() => setDetailsShown(false)}
+                className="flex-row items-center"
               >
-                <Text>{size.sizeName}</Text>
+                <Text>Hide Details</Text>
+                <ChevronUpIcon size={20} color="#000000" />
               </TouchableOpacity>
             </View>
-          ))}
+          )}
         </View>
-      </View>
 
-      {/* Add item to cart button */}
-      <View>
+        {/* Colors Section */}
+        <View className="space-y-2">
+          <Text className="font-bold">Colors Available</Text>
+          <View className="flex-row space-x-2 items-center">
+            {colors.map((color, index) => (
+              <View
+                key={index}
+                className={`p-0.5 rounded-full border-transparent ${
+                  color.isSelected && "border-2 border-black"
+                }`}
+              >
+                <TouchableOpacity
+                  onPress={() => selectColor(color.colorName)}
+                  className="h-5 w-5 rounded-full"
+                  style={{ backgroundColor: color.colorCode }}
+                ></TouchableOpacity>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        {/* Sizes section */}
+        <View className="space-y-2">
+          <Text className="font-bold">Sizes Available</Text>
+          <View className="flex-row space-x-2 items-center">
+            {sizes.map((size, index) => (
+              <View
+                key={index}
+                className={`p-0.5 rounded-full border-transparent ${
+                  size.isSelected && "border-2 border-black"
+                }`}
+              >
+                <TouchableOpacity
+                  onPress={() => selectSize(size.sizeName)}
+                  className="h-10 w-10 items-center justify-center rounded-full bg-gray-200"
+                >
+                  <Text>{size.sizeName}</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        {/* Add item to cart button */}
+        <View>
+          <TouchableOpacity
+            onPress={addItem}
+            className="p-3 bg-black rounded-lg"
+            style={{ width: "50%" }}
+          >
+            <Text className="text-lg font-bold text-gray-200 text-center">
+              Add to Cart
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Wishlist Button */}
         <TouchableOpacity
-          onPress={addItem}
-          className="p-3 bg-black rounded-lg"
-          style={{ width: "50%" }}
+          onPress={addToWishList}
+          className="absolute top-5 right-5 p-3 rounded-lg bg-gray-200"
         >
-          <Text className="text-lg font-bold text-gray-200 text-center">
-            Add to Cart
-          </Text>
+          {userInfo.wishlist &&
+          userInfo.wishlist.some((item) => item.id === id) ? (
+            <FilledHeartIcon color="#000000" />
+          ) : (
+            <HeartIcon color="#000000" />
+          )}
         </TouchableOpacity>
       </View>
-
-      {/* Wishlist Button */}
-      <TouchableOpacity
-        onPress={addToWishList}
-        className="absolute top-5 right-5 p-3 rounded-lg bg-gray-200"
-      >
-        {userInfo.wishlist &&
-        userInfo.wishlist.some((item) => item.id === id) ? (
-          <FilledHeartIcon color="#000000" />
-        ) : (
-          <HeartIcon color="#000000" />
-        )}
-      </TouchableOpacity>
     </View>
   );
 };

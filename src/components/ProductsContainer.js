@@ -33,7 +33,7 @@ const ProductsContainer = () => {
 
   return (
     <View>
-      <Text className="text-4xl font-extrabold mb-3">Today's Deals</Text>
+      <Text className="text-4xl font-extrabold mb-3 px-6">Today's Deals</Text>
       {products.map((product) => (
         <ProductCard key={product.id} data={product.data} id={product.id} />
       ))}
