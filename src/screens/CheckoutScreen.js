@@ -8,14 +8,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserActionCreators } from "../reducers/UserReducer/UserActionCreators";
 
 const CheckoutScreen = () => {
-  const userInfo = useSelector(state => state.UserReducer);
+  const userInfo = useSelector((state) => state.UserReducer);
 
   const [total, setTotal] = useState(0);
-  const [name, setName] = useState(userInfo.addressInfo.name);
-  const [phone, setPhone] = useState(userInfo.addressInfo.phone);
-  const [address, setAddress] = useState(userInfo.addressInfo.address);
-  const [city, setCity] = useState(userInfo.addressInfo.city);
-  const [state, setState] = useState(userInfo.addressInfo.state);
+  const [name, setName] = useState(
+    userInfo.addressInfo ? userInfo.addressInfo.name : ""
+  );
+  const [phone, setPhone] = useState(
+    userInfo.addressInfo ? userInfo.addressInfo.phone : ""
+  );
+  const [address, setAddress] = useState(
+    userInfo.addressInfo ? userInfo.addressInfo.address : ""
+  );
+  const [city, setCity] = useState(
+    userInfo.addressInfo ? userInfo.addressInfo.city : ""
+  );
+  const [state, setState] = useState(
+    userInfo.addressInfo ? userInfo.addressInfo.state : ""
+  );
 
   const { confirmPayment, loading } = useConfirmPayment();
 
@@ -23,21 +33,19 @@ const CheckoutScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-
-    let totalPrice = 0
+    let totalPrice = 0;
     userInfo.cart.forEach((item) => {
       const price = (100 - item.data.discount) * item.data.stockPrice * 0.01;
       totalPrice += price;
     });
-    setTotal(totalPrice)
-
-  }, [])
+    setTotal(totalPrice);
+  }, []);
 
   useEffect(() => {
     if (userInfo.isPaymentSuccesfull) {
-      navigation.navigate("Home")
+      navigation.navigate("Home");
     }
-  }, [userInfo])
+  }, [userInfo]);
 
   const fetchClientSecret = async (amount) => {
     try {
@@ -60,7 +68,7 @@ const CheckoutScreen = () => {
 
   const buyItems = async () => {
     try {
-      const amount = total
+      const amount = total;
       const clientSecret = await fetchClientSecret(amount);
       const { paymentIntent, error } = await confirmPayment(clientSecret, {
         paymentMethodType: "Card",
@@ -69,23 +77,23 @@ const CheckoutScreen = () => {
       // Payment error
       if (error) {
         console.log("Payment confirmation error", error);
-      } 
-      
+      }
+
       // Payment succesfull
       else if (paymentIntent) {
-        const userId = userInfo.id
+        const userId = userInfo.id;
         const paymentData = {
           addressInfo: {
             name: name,
             phone: phone,
             address: address,
             city: city,
-            state: state
+            state: state,
           },
           checkoutItems: userInfo.cart,
-        }
+        };
         alert("Payment Succesful");
-        dispatch(UserActionCreators.finishPayment(userId, paymentData))
+        dispatch(UserActionCreators.finishPayment(userId, paymentData));
         console.log("Success from promise", paymentIntent);
       }
     } catch (error) {
