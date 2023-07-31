@@ -4,12 +4,14 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
 import { UserActionCreators } from "../reducers/UserReducer/UserActionCreators";
+import OrderCard from "../components/OrderCard";
 
 const ProfileScreen = () => {
   const userInfo = useSelector((state) => state.UserReducer);
@@ -18,9 +20,9 @@ const ProfileScreen = () => {
   const navigation = useNavigation();
 
   const logoutUser = () => {
-    dispatch(UserActionCreators.removeUser())
-    navigation.navigate("Home")
-  }
+    dispatch(UserActionCreators.removeUser());
+    navigation.navigate("Home");
+  };
 
   return (
     <SafeAreaView style={{ height: "100%" }} className="bg-gray-200">
@@ -30,7 +32,7 @@ const ProfileScreen = () => {
         </TouchableOpacity>
         <Text className="text-4xl font-extrabold">Profile details</Text>
       </View>
-      <View className="flex-1 justify-center px-6">
+      <View className="justify-center px-6">
         <View className="items-center">
           <Image
             source={{ uri: userInfo.photoURL }}
@@ -38,18 +40,35 @@ const ProfileScreen = () => {
             className="rounded-lg mb-10"
           />
         </View>
-        <View className="flex-row items-center space-x-1">
-          <Text className="text-xl text-gray-700">Name: </Text>
-          <Text className="text-xl font-bold">{userInfo.name}</Text>
+        <View className="bg-white p-5 rounded-lg shadow-md mb-4">
+          <Text className="text-xl font-bold">Profile Information</Text>
+          <View className="flex-row items-center space-x-1">
+            <Text className="text-lg font-bold">Name: </Text>
+            <Text className="text-lg ">{userInfo.name}</Text>
+          </View>
+          <View className="flex-row items-center space-x-1">
+            <Text className="text-lg font-bold">Email: </Text>
+            <Text className="text-lg ">{userInfo.email}</Text>
+          </View>
         </View>
-        <View className="flex-row items-center space-x-1">
-          <Text className="text-xl text-gray-700">Email: </Text>
-          <Text className="text-xl font-bold">{userInfo.email}</Text>
+
+        <View className="bg-white p-5 rounded-lg shadow-md mb-4">
+          <Text className="text-xl font-bold">Your Orders</Text>
+          <ScrollView style={{height: "40%"}} showsVerticalScrollIndicator={false}>
+            {userInfo.orders ? (
+              userInfo.orders.map((order, index) => <OrderCard key={index} data={order.data} />)
+            ) : (
+              <Text>No orders</Text>
+            )}
+          </ScrollView>
         </View>
       </View>
-      <View className="flex-1 items-center">
-        <TouchableOpacity onPress={logoutUser} className="bg-black p-4 rounded-lg">
-          <Text className="text-white text-bold text-lg">Logout</Text>
+      <View className="px-6">
+        <TouchableOpacity
+          onPress={logoutUser}
+          className="bg-black p-4 rounded-lg"
+        >
+          <Text className="text-white text-bold text-lg text-center">Logout</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

@@ -10,6 +10,8 @@ import { HeartIcon as FilledHeartIcon } from "react-native-heroicons/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { UserActionCreators } from "../reducers/UserReducer/UserActionCreators";
 
+import * as Progress from "react-native-progress";
+
 const ProductCard = ({ id, data }) => {
   // Declaring dispatch
   const dispatch = useDispatch();
@@ -85,7 +87,7 @@ const ProductCard = ({ id, data }) => {
 
   const addItem = () => {
     const productData = {
-      id: id,
+      id: id + userInfo.cart.length,
       data: {
         ...data,
         colorSelected: colors.find((color) => color.isSelected),
@@ -111,7 +113,9 @@ const ProductCard = ({ id, data }) => {
         {/* Fitness product with price */}
         <View>
           <View className="flex-row justify-between items-center">
-            <Text className="font-bold text-lg" style={{width: "70%"}}>{data.name}</Text>
+            <Text className="font-bold text-lg" style={{ width: "70%" }}>
+              {data.name}
+            </Text>
             <View className="flex-row space-x-2">
               <Text
                 className={`font-bold text-lg ${
@@ -121,7 +125,9 @@ const ProductCard = ({ id, data }) => {
                 ${data.stockPrice}
               </Text>
               {data.discount !== 0 && (
-                <Text className="text-xl font-bold">${(100 - data.discount) * data.stockPrice * 0.01}</Text>
+                <Text className="text-xl font-bold">
+                  ${(100 - data.discount) * data.stockPrice * 0.01}
+                </Text>
               )}
             </View>
           </View>
@@ -197,12 +203,16 @@ const ProductCard = ({ id, data }) => {
         <View>
           <TouchableOpacity
             onPress={addItem}
-            className="p-3 bg-black rounded-lg"
-            style={{ width: "50%" }}
+            className="px-3 items-center justify-center bg-black rounded-lg"
+            style={{ height: 50, width: "50%" }}
           >
-            <Text className="text-lg font-bold text-gray-200 text-center">
-              Add to Cart
-            </Text>
+            {userInfo.isCartLoading ? (
+              <Progress.Circle color="#FFFFFF" size={30} indeterminate={true} />
+            ) : (
+              <Text className="text-lg font-bold text-gray-200 text-center">
+                Add to Cart
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
 

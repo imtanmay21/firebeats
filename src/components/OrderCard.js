@@ -1,28 +1,10 @@
-import { View, Text, Image, TouchableOpacity, Touchable } from "react-native";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { TrashIcon } from "react-native-heroicons/outline";
-import { UserActionCreators } from "../reducers/UserReducer/UserActionCreators";
+import { View, Text, Image } from "react-native";
+import React from "react";
 
-const CartItem = ({ id, data }) => {
-  const userInfo = useSelector((state) => state.UserReducer);
-
-  // declare
-  const dispatch = useDispatch();
-
-  // Remove item from cart
-  const removeItem = () => {
-    const userId = userInfo.id;
-    const productData = {
-      id: id,
-      data: data
-    }
-    dispatch(UserActionCreators.removeItemFromCart(userId, productData));
-  };
-
+const OrderCard = ({ data }) => {
   return (
-    <View className="px-6">
-      <View className="flex-row space-x-2 bg-white p-5 mb-3 rounded-lg shadow-lg">
+    <View>
+      <View className="flex-row space-x-2 py-5 mb-3">
         <Image
           source={{ uri: data.imgURL }}
           style={{ height: 100, width: 100 }}
@@ -58,17 +40,10 @@ const CartItem = ({ id, data }) => {
               </Text>
             </View>
           </View>
-          {/* Remove Button */}
-          <TouchableOpacity
-            onPress={removeItem}
-            className="bg-gray-200 rounded-full h-10 w-10 justify-center items-center"
-          >
-            <TrashIcon color="#000000" />
-          </TouchableOpacity>
         </View>
       </View>
     </View>
   );
 };
 
-export default CartItem;
+export default OrderCard;

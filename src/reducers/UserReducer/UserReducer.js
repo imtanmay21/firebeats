@@ -12,7 +12,7 @@ export const UserReducer = (state = initialState, action) => {
     }
 
     case types.REMOVE_USER: {
-      return null
+      return null;
     }
 
     case types.ADD_ITEM_WISHLIST: {
@@ -44,6 +44,41 @@ export const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: cartItems,
+      };
+    }
+
+    case types.FINISH_PAYMENT: {
+      const { paymentData } = action.payload;
+      return {
+        ...state,
+        isPaymentSuccesfull: true,
+        cart: [],
+        orders: [...state.orders, ...paymentData.checkoutItems],
+        addressInfo: {
+          addressInfo: {
+            name: paymentData.addressInfo.name,
+            phone: paymentData.addressInfo.phone,
+            address: paymentData.addressInfo.address,
+            city: paymentData.addressInfo.city,
+            state: paymentData.addressInfo.state,
+          },
+        },
+      };
+    }
+
+    case types.SET_CART_LOADING: {
+      const { isLoading } = action.payload;
+      return {
+        ...state,
+        isCartLoading: isLoading,
+      };
+    }
+
+    case types.SET_PAYMENT_STATUS: {
+      const { isPaymentSuccesfull } = action.payload;
+      return {
+        ...state,
+        isPaymentSuccesfull: isPaymentSuccesfull,
       };
     }
 

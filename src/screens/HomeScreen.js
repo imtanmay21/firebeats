@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
@@ -24,17 +25,21 @@ import { HeartIcon, ShoppingCartIcon } from "react-native-heroicons/outline";
 
 import ProductsContainer from "../components/ProductsContainer";
 import LoginForm from "../components/LoginForm";
-import { useNavigation } from "@react-navigation/native";
 import { UserActionCreators } from "../reducers/UserReducer/UserActionCreators";
 
+// To let the application go to the browser
 WebBrowser.maybeCompleteAuthSession();
 
 const HomeScreen = () => {
+
+  // Get user info
   const userInfo = useSelector((state) => state.UserReducer);
 
+  // Declare dispatch and navigation
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  // Declaring authentication request for the below ios & android client ids
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
       "1080825624235-rubd3jo70iii906un5tqer7islldh429.apps.googleusercontent.com",
@@ -42,15 +47,18 @@ const HomeScreen = () => {
       "1080825624235-rat106bb56satjdihvb3mikkvrf74lnm.apps.googleusercontent.com",
   });
 
+  // Check if response is sucess
   useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credentials = GoogleAuthProvider.credential(id_token);
+      // Sign in with credentials
       signInWithCredential(auth, credentials);
     }
   }, [response]);
 
   useEffect(() => {
+    // Check if user is authenticated
     const unsub = onAuthStateChanged(auth, async (user) => {
       if (user) {
         // Check if document of the user exists
@@ -75,15 +83,18 @@ const HomeScreen = () => {
           dispatch(UserActionCreators.setUser(docSnap.data()));
         }
       } else {
-        console.log("no user");
+        // If user is not there
+        console.log("No user is logged in");
       }
-
+      // Cleanup function
       return () => unsub();
     });
   }, []);
 
   return (
     <SafeAreaView className="bg-gray-200" style={{ height: "100%" }}>
+      
+      {/* If user is logged in */}
       {userInfo ? (
         <View className="py-6 space-y-4">
           {/* Header */}
@@ -144,6 +155,7 @@ const HomeScreen = () => {
           </ScrollView>
         </View>
       ) : (
+        // If user is not logged in
         <LoginForm promptAsync={promptAsync} />
       )}
     </SafeAreaView>
