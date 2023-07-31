@@ -1,16 +1,20 @@
-import { View, Text } from "react-native";
-import React, { useEffect } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../firebase.config";
 
 import ProductCard from "./ProductCard";
-import { ProductActionCreators } from "../reducers/ProductReducer/ProductActionCreators";
+import { ChevronDoubleDownIcon } from "react-native-heroicons/outline";
 
 const ProductsContainer = () => {
-  const { products } = useSelector((state) => state.ProductReducer);
+  const [products, setProducts] = useState([]);
 
-  const dispatch = useDispatch();
+  const [showOptions, setShowOptions] = useState(false);
+
+  const options = [
+    { name: "Increasing order by price" },
+    { name: "Decreasing order by price" },
+  ];
 
   useEffect(() => {
     // Getting products
@@ -22,7 +26,8 @@ const ProductsContainer = () => {
             id: doc.id,
             data: doc.data(),
           }));
-          dispatch(ProductActionCreators.setProducts(fetchedProducts));
+          // dispatch(ProductActionCreators.setProducts(fetchedProducts));
+          setProducts(fetchedProducts);
         }
       } catch (e) {
         alert(e.message);
@@ -31,9 +36,57 @@ const ProductsContainer = () => {
     getDocuments();
   }, []);
 
+  const sortByOption = (option) => {
+    if (option.name === "Increasing order by price") {
+      const productsDisplayed = products;
+      productsDisplayed.sort(
+        (item1, item2) =>
+          item1.data.discountedPrice - item2.data.discountedPrice
+      );
+      console.log(productsDisplayed);
+      setProducts(productsDisplayed);
+      setShowOptions(false);
+    } else {
+      const productsDisplayed = products;
+      productsDisplayed.sort(
+        (item1, item2) =>
+          item2.data.discountedPrice - item1.data.discountedPrice
+      );
+      console.log(productsDisplayed);
+      setProducts(productsDisplayed);
+      setShowOptions(false);
+    }
+  };
+
   return (
     <View>
       <Text className="text-4xl font-extrabold mb-3 px-6">Today's Deals</Text>
+
+      {/* Sorting */}
+      <View className="px-6 mb-3 relative">
+        <TouchableOpacity
+          onPress={() => setShowOptions(!showOptions)}
+          className="p-4 bg-white shadow-md rounded-lg  flex-row items-center justify-between"
+        >
+          <Text>Sort By</Text>
+          <ChevronDoubleDownIcon size={20} color="#000000" />
+        </TouchableOpacity>
+
+        {/* Options */}
+        {showOptions && (
+          <View className="bg-white p-5 space-y-4">
+            {options.map((option, index) => (
+              <TouchableOpacity
+                onPress={() => sortByOption(option)}
+                key={index}
+              >
+                <Text>{option.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+      </View>
+
       {products.map((product) => (
         <ProductCard key={product.id} data={product.data} id={product.id} />
       ))}
