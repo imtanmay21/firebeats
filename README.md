@@ -47,13 +47,3 @@ The project is built using the following technologies:
   <img src="./assets/screenshots/PaymentSuccess.png" alt="Screenshot 1" width="250"/>
   <img src="./assets/screenshots/ProfileScreen.png" alt="Screenshot 1" width="250"/>
 </div>
-
-## Getting Started
-
-To get started with the application locally, follow these steps:
-
-1. Clone this repository to your local machine.
-
-```bash
-git clone https://github.com/your-username/fitness-tracker-ecom.git
-cd fitness-tracker-ecom
