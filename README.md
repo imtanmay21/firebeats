@@ -48,9 +48,6 @@ The project is built using the following technologies:
   <img src="./assets/screenshots/ProfileScreen.png" alt="Screenshot 1" width="250"/>
 </div>
 
-Thank you for checking out the Deliveroo Clone project. If you have any questions or feedback, please feel free to contact us. Happy coding!
-
-
 ## Getting Started
 
 To get started with the application locally, follow these steps:
