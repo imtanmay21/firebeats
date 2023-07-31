@@ -1,8 +1,6 @@
 # firebeats
 # Fitness Tracker E-Commerce Application
 
-![Fitness Tracker E-Commerce](https://example.com/path/to/your/image.png)
-
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
@@ -38,12 +36,16 @@ The project is built using the following technologies:
 ## Screenshots
 
 <div align="center">
-  <img src="./assets/screenshots/HomeScreen1.jpeg" alt="Screenshot 1" width="250"/>
-  <img src="./assets/screenshots/HomeScreen2.jpeg" alt="Screenshot 1" width="250"/>
-  <img src="./assets/screenshots/OrderScreen.jpeg" alt="Screenshot 1" width="250"/>
-  <img src="./assets/screenshots/OrderScreen1.jpeg" alt="Screenshot 1" width="250"/>
-  <img src="./assets/screenshots/BasketScreen.jpeg" alt="Screenshot 1" width="250"/>
-  <img src="./assets/screenshots/DeliveryScreen.jpeg" alt="Screenshot 1" width="250"/>
+  <img src="./assets/screenshots/LoginScreen.png" alt="Screenshot 1" width="250"/>
+  <img src="./assets/screenshots/LoginScreen-2.png" alt="Screenshot 1" width="250"/>
+  <img src="./assets/screenshots/HomeScreen.png" alt="Screenshot 1" width="250"/>
+  <img src="./assets/screenshots/HomeScreen2.png" alt="Screenshot 1" width="250"/>
+  <img src="./assets/screenshots/WishlistScreen.png" alt="Screenshot 1" width="250"/>
+  <img src="./assets/screenshots/CartScreen.png" alt="Screenshot 1" width="250"/>
+  <img src="./assets/screenshots/CheckoutScreen.png" alt="Screenshot 1" width="250"/>
+  <img src="./assets/screenshots/AuthenticationScreen.png" alt="Screenshot 1" width="250"/>
+  <img src="./assets/screenshots/PaymentSuccess.png" alt="Screenshot 1" width="250"/>
+  <img src="./assets/screenshots/ProfileScreen.png" alt="Screenshot 1" width="250"/>
 </div>
 
 Thank you for checking out the Deliveroo Clone project. If you have any questions or feedback, please feel free to contact us. Happy coding!
