@@ -6,6 +6,7 @@ import { store } from "./store";
 import WishlistScreen from "./src/screens/WishlistScreen";
 import CartScreen from "./src/screens/CartScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
+import CheckoutScreen from "./src/screens/CheckoutScreen";
 
 export default function App() {
   // Creating navigation stack
@@ -34,6 +35,11 @@ export default function App() {
             name="Profile"
             component={ProfileScreen}
             options={{ presentation: "fullScreenModal", headerShown: false }}
+          />
+          <Stack.Screen
+            name="Checkout"
+            component={CheckoutScreen}
+            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </Provider>

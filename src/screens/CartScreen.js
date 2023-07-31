@@ -56,17 +56,18 @@ const CartScreen = () => {
 
       {/* Subtotal */}
       <View className="px-6 mb-2 shadow-md">
-        <View className="flex-row items-center justify-between">
+        <View className="bg-white p-5 rounded-lg mb-2 shadow-lg flex-row items-center justify-between">
           <Text className="text-lg font-bold ">Subtotal</Text>
-          <Text className="text-lg font-bold">{total}</Text>
+          <Text className="text-lg font-bold">${total}</Text>
         </View>
       </View>
 
       {/* Checkout Button */}
       <View className="px-6 mb-2">
         <TouchableOpacity
+          onPress={() => navigation.navigate("Checkout")}
           disabled={userInfo.cart.length === 0}
-          className={`bg-black p-5 rounded-lg ${
+          className={`bg-black p-5 rounded-lg shadow-md ${
             userInfo.cart.length === 0 && "bg-gray-400"
           }`}
         >
