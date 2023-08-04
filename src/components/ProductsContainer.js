@@ -1,19 +1,30 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import Modal from "react-native-modal";
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase.config";
 
 import ProductCard from "./ProductCard";
-import { ChevronDoubleDownIcon } from "react-native-heroicons/outline";
+import DropDown from "./DropDown";
 
 const ProductsContainer = () => {
+  const [globalProducts, setGlobalProducts] = useState([]);
+
+  // Declare products
   const [products, setProducts] = useState([]);
 
-  const [showOptions, setShowOptions] = useState(false);
-
-  const options = [
+  // Declare options
+  const sortOptions = [
     { name: "Increasing order by price" },
     { name: "Decreasing order by price" },
+  ];
+
+  // Declare brands
+  const brands = [
+    { name: "Apple" },
+    { name: "Xiaomi" },
+    { name: "Fitbit" },
+    { name: "Reset" },
   ];
 
   useEffect(() => {
@@ -27,6 +38,7 @@ const ProductsContainer = () => {
             data: doc.data(),
           }));
           // dispatch(ProductActionCreators.setProducts(fetchedProducts));
+          setGlobalProducts(fetchedProducts);
           setProducts(fetchedProducts);
         }
       } catch (e) {
@@ -38,23 +50,34 @@ const ProductsContainer = () => {
 
   const sortByOption = (option) => {
     if (option.name === "Increasing order by price") {
-      const productsDisplayed = products;
+      const productsDisplayed = [...products];
       productsDisplayed.sort(
         (item1, item2) =>
           item1.data.discountedPrice - item2.data.discountedPrice
       );
       console.log(productsDisplayed);
       setProducts(productsDisplayed);
-      setShowOptions(false);
     } else {
-      const productsDisplayed = products;
+      const productsDisplayed = [...products];
       productsDisplayed.sort(
         (item1, item2) =>
           item2.data.discountedPrice - item1.data.discountedPrice
       );
-      console.log(productsDisplayed);
       setProducts(productsDisplayed);
-      setShowOptions(false);
+    }
+  };
+
+  const sortByBrand = (option) => {
+    // If reset is chosen
+    if (option.name === "Reset") {
+      setProducts(globalProducts);
+    } else {
+
+      // Map products of the same brand
+      const sortedProducts = globalProducts.filter(
+        (product) => product.data.brand === option.name
+      );
+      setProducts(sortedProducts);
     }
   };
 
@@ -62,29 +85,16 @@ const ProductsContainer = () => {
     <View>
       <Text className="text-4xl font-extrabold mb-3 px-6">Today's Deals</Text>
 
-      {/* Sorting */}
-      <View className="px-6 mb-3 relative">
-        <TouchableOpacity
-          onPress={() => setShowOptions(!showOptions)}
-          className="p-4 bg-white shadow-md rounded-lg  flex-row items-center justify-between"
-        >
-          <Text>Sort By</Text>
-          <ChevronDoubleDownIcon size={20} color="#000000" />
-        </TouchableOpacity>
+      <View className="flex-row space-x-2 px-6">
+        {/* Sorting by price */}
+        <DropDown
+          options={sortOptions}
+          sort={sortByOption}
+          label="Sort By Price"
+        />
 
-        {/* Options */}
-        {showOptions && (
-          <View className="bg-white p-5 space-y-4">
-            {options.map((option, index) => (
-              <TouchableOpacity
-                onPress={() => sortByOption(option)}
-                key={index}
-              >
-                <Text>{option.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
+        {/* Sorting by Brand */}
+        <DropDown options={brands} sort={sortByBrand} label="Sort By Brand" />
       </View>
 
       {products.map((product) => (

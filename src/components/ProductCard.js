@@ -1,9 +1,11 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
+import Modal from 'react-native-modal';
 import React, { useState } from "react";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
   HeartIcon,
+  ShareIcon,
 } from "react-native-heroicons/outline";
 import { HeartIcon as FilledHeartIcon } from "react-native-heroicons/solid";
 
